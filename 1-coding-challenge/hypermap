@@ -1,0 +1,24 @@
+#!/usr/bin/python
+
+import sys
+import subprocess
+
+args = sys.argv[1:]
+
+def nmap(args, ip):
+    command = "nmap " + args + " -v " + ip
+    print ""
+    print command
+    subprocess.call(command, shell=True)
+    print ""
+
+if args[0] == "ping":
+    nmap("-sn", args[1])
+
+if args[1] == "scan":
+    if args[0] == "fast":
+        nmap("-sS -sV -O -p 22,23,80,111,135,139,443,445,3389,8080", args[2])
+    if args[1] == "standard": 
+        nmap("-sS -sV -F -O", args[2])
+    if args[1] == "complete":
+        nmap("-Pn -sS -sV -p- -A", args[2])
